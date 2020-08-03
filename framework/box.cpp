@@ -5,15 +5,12 @@ Box::Box(glm::vec3 const& min, glm::vec3 const& max) :
 	min_{ min },
 	max_{ max } { std::cout << "Box Constructor" << std::endl; }
 
-Box::Box(std::string name, Color const& color, glm::vec3 const& min, glm::vec3 const& max) :
-	Shape(name, color),
+Box::Box(std::string const& name, Material const& material, glm::vec3 const& min, glm::vec3 const& max) :
+	Shape(name, material),
 	min_{min},
-	max_{max} { std::cout << "Box Constructor" << std::endl; }
+	max_{max} { }
 
-Box::~Box()
-{
-	std::cout << "Box Destructor" << std::endl;
-}
+Box::~Box() { }
 
 float Box::area() const
 {
@@ -27,16 +24,4 @@ float Box::area() const
 float Box::volume() const
 {
 	return (max_.x - min_.x) * (max_.y - min_.y) * (max_.z - min_.z);
-}
-
-std::ostream& Box::print(std::ostream& os) const
-{
-	Shape::print(os);
-	os << ", Min (x|y|z): " << min_.x << " | " << min_.y << " | " << min_.z << ", Max (x|y|z): " << max_.x << " | " << max_.y << " | " << max_.z;
-	return os;
-}
-
-std::ostream& operator<<(std::ostream& os, Box const& b)
-{
-	return b.print(os);
 }

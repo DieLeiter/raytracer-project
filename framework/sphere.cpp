@@ -8,15 +8,12 @@ Sphere::Sphere(glm::vec3 const& cntr, float r) :
 	center_{ cntr },
 	radius_{ r } { std::cout << "Sphere Constructor" << std::endl; }
 
-Sphere::Sphere(std::string name, Color const& color, glm::vec3 const& cntr, float r) :
-	Shape(name, color),
+Sphere::Sphere(std::string const& name, Material const& material, glm::vec3 const& cntr, float r) :
+	Shape(name, material),
 	center_{ cntr },
-	radius_{ r } { std::cout << "Sphere Constructor" << std::endl; }
+	radius_{ r } { }
 
-Sphere::~Sphere()
-{
-	std::cout << "Sphere Destructor" << std::endl;
-}
+Sphere::~Sphere() {}
 
 float Sphere::area() const
 {
@@ -46,16 +43,4 @@ HitPoint Sphere::intersect(Ray const& ray) const
 							ray.origin.z + (distance * direction.z) };
 
 	return HitPoint(hit, distance, name_, color_, hitpoint, direction);
-}
-
-std::ostream& Sphere::print(std::ostream& os) const
-{
-	Shape::print(os);
-	os << ", Center (x|y|z): " << center_.x << " | " << center_.y << " | " << center_.z << ", Radius: " << radius_;
-	return os;
-}
-
-std::ostream& operator<<(std::ostream& os, Sphere const& s)
-{
-	return s.print(os);
 }
