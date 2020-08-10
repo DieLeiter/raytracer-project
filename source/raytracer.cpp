@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
   int32_t line_count = 0; //line number
   std::string class_name; // here the class name of the currently parsed line will be stored
   std::string identifier; // here the identifier (e.g. "define") of the currently parsed line will be stored
+  std::string shape_type; //if class_name is shape, need to check for derived classes
 
   while(std::getline(in_file, line_buffer)){
     ++line_count;
@@ -45,6 +46,48 @@ int main(int argc, char* argv[])
     if(identifier == "define"){
       in_sstream >> class_name; //class_name is assigned the next word in current line (until next whitespace)
       if(class_name == "shape"){
+        //check what specific shape
+        in_sstream >> shape_type;
+        if(shape_type == "box"){
+          std::string box_name;
+          float min_x;
+          float min_y;
+          float min_z;
+          float max_x;
+          float max_y;
+          float max_z;
+          //TODO: lookup Material ??
+
+          in_sstream >> box_name;
+          in_sstream >> min_x >> min_y >> min_z;
+          in_sstream >> max_x >> max_y >> max_z;
+          //TODO: material
+
+          std::cout << "Shape Box in line " << line_count << ": " << box_name << " " << min_x  << " " << min_y << " " << min_z  << " " << max_x  << " " << max_y << " " << max_z << " " << std::endl; // for testing only
+          
+        }
+        else if(shape_type == "sphere"){
+          std::string sphere_name;
+          float center_x;
+          float center_y; 
+          float center_z;
+          float radius;
+          //TODO: material lookup
+
+          in_sstream >> sphere_name;
+          in_sstream >> center_x >> center_y >> center_z;
+          in_sstream >> radius;
+          //TODO: material
+
+          std::cout << "Shape Sphere in line " << line_count << ": " << sphere_name << " " << center_x  << " " << center_y << " " << center_z << " " << radius << std::endl; // for testing only
+        
+        }
+        else if(shape_type == "composite"){
+          //TODO!!
+        }
+        else{
+          std::cout << "Invalid shape type in line " << line_count << std::endl;
+        }
         //parse shape attributes
 
       }
@@ -82,7 +125,7 @@ int main(int argc, char* argv[])
         in_sstream >> color_b;
         in_sstream >> intensity;
 
-        std::cout << light_name  << " " << position_x << " " << position_y << " " << position_z << " " << color_r <<  " " << color_g << " " << color_b << " " << intensity << std::endl; // for testing only
+        std::cout << "Light in line " << line_count << ": " << light_name  << " " << position_x << " " << position_y << " " << position_z << " " << color_r <<  " " << color_g << " " << color_b << " " << intensity << std::endl; // for testing only
       }
       else if(class_name == "camera"){
         //parse camera attributes
@@ -91,15 +134,13 @@ int main(int argc, char* argv[])
         in_sstream >> camera_name;
         in_sstream >> angle;
 
-        std::cout << camera_name << " " << angle << std::endl; // for testing only
+        std::cout << "Camera in line " << line_count << ": " << camera_name << " " << angle << std::endl; // for testing only
       }
       else{
         std::cout<<"Invalid line in SDF File. Unknown class name.";
       }
     }
   }
-
-
 /* end of parsing */
 
 
