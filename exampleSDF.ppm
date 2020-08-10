@@ -1,0 +1,24 @@
+#materials
+define material red 100 100 100 10 
+define material blue 001 001 001 10
+# geometry
+define shape box rbottom -100 -80 -200 100 80 -100 red
+define shape sphere bsphere 0 0 -100 50 blue
+# composite
+define shape composite root rbottom bsphere
+# scene xform
+transform rbottom rotate 45 0 0 1
+transform rbottom translate 0 0 -10
+transform bsphere rotate 45 0 0 1
+transform bsphere translate 0 0 -10
+# lights
+define light sun 500 800 0 1.0 1.0 1.0 10
+define light spot1 -500 800 0 0.8 0.8 0.8 10
+ambient 0.1 0.1 0.1
+# camera
+define camera eye 60.0
+# camera xform
+transform eye rotate -45 0 1 0 
+transform eye translate 100 0 100
+# ... and go
+render eye image.ppm 480 320
