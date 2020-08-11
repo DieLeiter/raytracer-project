@@ -8,7 +8,7 @@
 
 struct Scenegraph
 {
-	Camera* camera = nullptr;
+	std::shared_ptr<Camera> camera = nullptr;
 	std::vector<std::shared_ptr<Shape>> objects{};
 	std::vector<std::shared_ptr<Light>> lights{};
 };
