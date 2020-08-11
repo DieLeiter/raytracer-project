@@ -3,10 +3,10 @@
 
 #include <string>
 
-struct camera
+struct Camera
 {
 	std::string name = "Camera";
-	float fov_x = 10.0f;
+	float fov_x = 45.0f;
 };
 
 #endif

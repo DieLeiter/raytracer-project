@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #include "color.hpp"
 
-struct light
+struct Light
 {
 	std::string name_ = " ";
 	glm::vec3 position_{ 0, 0 ,0 };
