@@ -5,10 +5,10 @@
 
 struct Material
 {
-	Color ka_ = { 0.0f, 0.0f, 0.0f };
-	Color kd_ = { 0.0f, 0.0f, 0.0f };
-	Color ks_ = { 0.0f, 0.0f, 0.0f };
-	float m_ = 10.0f;
+	Color ka = { 0.0f, 0.0f, 0.0f };
+	Color kd = { 0.0f, 0.0f, 0.0f };
+	Color ks = { 0.0f, 0.0f, 0.0f };
+	float m = 10.0f;
 };
 
 #endif
