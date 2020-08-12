@@ -12,8 +12,6 @@ struct Scenegraph
 	std::shared_ptr<glm::vec3> ambient{};
 	std::vector<std::shared_ptr<Shape>> objects{};
 	std::vector<std::shared_ptr<Light>> lights{};
-	
-
 };
 
 #endif
