@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #include "color.hpp"
 #include "material.hpp"
+#include "hitpoint.hpp"
+#include "ray.hpp"
 
 class Shape {
 public:
@@ -13,6 +15,7 @@ public:
 	virtual ~Shape();
 	virtual float area() const = 0;
 	virtual float volume() const = 0;
+	virtual HitPoint intersect(Ray const& ray) const = 0;
 protected:
 	std::string name_ = "Shape";
 	Color color_{ 128, 128, 128 };
