@@ -5,6 +5,7 @@
 #include <string> // to buffer lines of the SDF File
 
 #include "box.hpp"
+#include "sphere.hpp"
 
 void SdfParser::parse(char* argv[], Scenegraph &scene) const
 {
@@ -66,7 +67,7 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                     Material sphere_material{};
 
                     std::cout << "Shape Sphere in line " << line_count << ": " << sphere_name << " " << center_x << " " << center_y << " " << center_z << " " << radius << std::endl; // for testing only
-                    auto sphere = std::make_shared<Box>(sphere_name, sphere_material, glm::vec3(center_x, center_y, center_z));
+                    auto sphere = std::make_shared<Sphere>(sphere_name, sphere_material, glm::vec3(center_x, center_y, center_z), radius);
 
                     scene.objects.push_back(sphere);
                 }
