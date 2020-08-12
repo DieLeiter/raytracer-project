@@ -42,5 +42,5 @@ HitPoint Sphere::intersect(Ray const& ray) const
 							ray.origin.y + (distance * direction.y), 
 							ray.origin.z + (distance * direction.z) };
 
-	return HitPoint(hit, distance, name_, color_, hitpoint, direction);
+	return HitPoint(hit, distance, name_, material_, hitpoint, direction);
 }
