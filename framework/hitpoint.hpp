@@ -10,17 +10,21 @@ struct HitPoint
 	bool hit = false;
 	float distance = 0.0f;
 	std::string name = "Name";
-	Color color = { 128, 128, 128 };
+	Material material{};
 	glm::vec3 hit_point = { 0, 0, 0 };
 	glm::vec3 direction = { 0, 0, 0 };
 	HitPoint() = default;
-	HitPoint(bool h, float d, std::string n, Color c, glm::vec3 hp, glm::vec3 dir) : 
+	HitPoint(bool h, float d, std::string n, Material m, glm::vec3 hp, glm::vec3 dir) : 
 		hit{h},
 		distance{d},
 		name{n},
-		color{c},
+		material{m},
 		hit_point{hp},
 		direction{dir} {}
+
+	bool operator < (HitPoint const& hp) const {
+		return distance < hp.distance;
+	}
 };
 
 #endif
