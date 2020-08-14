@@ -18,28 +18,23 @@ void Tracer::trace(Scenegraph& scene, Renderer& renderer, unsigned image_width, 
 
             std::vector<HitPoint> hits{};
 
-            for each (std::shared_ptr<Shape> shape in scene.objects) {
+            for (std::shared_ptr<Shape> shape : scene.objects) {
 
                 HitPoint hit = shape->intersect(ray);
 
                 if (hit.hit) {
                     hits.push_back(hit);
-                    if (hit.name == "bsphere") {
-                        std::cout << "Sphere hit" << std::endl;
-                    }
                 }
             }
 
             Pixel pixel{ (unsigned)x, (unsigned)y };
 
             if (hits.empty()) {
-                //std::cout << "Write black Pixel" << std::endl;
                 pixel.color = { 0.0, 0.0, 0.0 };
 
                 renderer.write(pixel);
             }
             else {
-                //std::cout << "Write color Pixel" << std::endl;
                 std::sort(hits.begin(), hits.end());
 
                 HitPoint hit = *hits.begin();

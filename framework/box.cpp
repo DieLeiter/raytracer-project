@@ -33,7 +33,7 @@ HitPoint Box::intersect(Ray const& ray) const
 	glm::vec3 direction = glm::normalize(ray.direction);
 	std::vector<HitPoint> hits{};
 
-	// front
+	// left
 	// check that ray is not parallel to x plane
 	if (direction.x != 0) {
 		float t = (-ray.origin.x + min_.x) / direction.x;
@@ -49,7 +49,7 @@ HitPoint Box::intersect(Ray const& ray) const
 	}
 
 
-	// back
+	// right
 	// check that ray is not parallel to x plane
 	if (direction.x != 0) {
 		float t = (-ray.origin.x + max_.x) / direction.x;
@@ -64,7 +64,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		}
 	}
 
-	// left
+	// front
 	// check that ray is not parallel to z plane
 	if (direction.z != 0) {
 		float t = (-ray.origin.z + min_.z) / direction.z;
@@ -79,7 +79,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		}
 	}
 
-	// right
+	// back
 	// check that ray is not parallel to z plane
 	if (direction.z != 0) {
 		float t = (-ray.origin.z + max_.z) / direction.z;
