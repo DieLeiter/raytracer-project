@@ -23,6 +23,17 @@ TEST_CASE("Box Intersection"){
     REQUIRE(hitpoint.hit_point.z == -1);
 }
 
+TEST_CASE("Sphere Intersection") {
+    Sphere sphere{ glm::vec3(-100, -100, -100), 20 };
+    Ray ray{ {0, 0, 0}, {0, 0, -1} };
+
+    HitPoint hitpoint = sphere.intersect(ray);
+    REQUIRE(hitpoint.hit == true);
+    REQUIRE(hitpoint.hit_point.x == 0);
+    REQUIRE(hitpoint.hit_point.y == 0);
+    REQUIRE(hitpoint.hit_point.z == -80);
+}
+
 int main(int argc, char *argv[])
 {
     return Catch::Session().run(argc, argv);

@@ -6,7 +6,7 @@
 
 Sphere::Sphere(glm::vec3 const& cntr, float r) :
 	center_{ cntr },
-	radius_{ r } { std::cout << "Sphere Constructor" << std::endl; }
+	radius_{ r } { }
 
 Sphere::Sphere(std::string const& name, Material const& material, glm::vec3 const& cntr, float r) :
 	Shape(name, material),

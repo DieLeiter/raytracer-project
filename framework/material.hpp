@@ -5,7 +5,7 @@
 
 struct Material
 {
-	Color ka = { 0.0f, 0.0f, 0.0f };
+	Color ka = { 100.0f, 100.0f, 100.0f };
 	Color kd = { 0.0f, 0.0f, 0.0f };
 	Color ks = { 0.0f, 0.0f, 0.0f };
 	float m = 10.0f;

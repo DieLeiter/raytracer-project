@@ -12,12 +12,13 @@
 #include "scenegraph.hpp"
 #include "ray.hpp"
 #include "shape.hpp"
+#include "tracer.hpp"
 
 //now single threaded again
 int main(int argc, char* argv[])
 {
-    unsigned const image_width = 800;
-    unsigned const image_height = 600;
+    unsigned const image_width = 400;
+    unsigned const image_height = 300;
     std::string const filename = "./checkerboard.ppm";
     Renderer renderer{image_width, image_height, filename};
     renderer.render();
@@ -33,8 +34,12 @@ int main(int argc, char* argv[])
     // pasring SDF File
     sdf_parser.parse(argv, scene);
 
+    std::cout << "Camera name: " << scene.camera->name << std::endl;
+    std::cout << "Object count: " << scene.objects.size() << std::endl;
 
-
+    //raytrace
+    Tracer tracer{};
+    tracer.trace(scene, renderer, image_width, image_height);
 
     Window window{{image_width, image_height}};
 
@@ -46,19 +51,4 @@ int main(int argc, char* argv[])
     }
 
   return 0;
-}
-
-void trace(Scenegraph& scene, Renderer &renderer, unsigned image_width, unsigned image_height) {
-
-    float distance = (image_width / 2) / std::tan(scene.camera->fov_x / 2);
-
-    for (unsigned i = image_height/2; i > -image_height/2; --i) {
-        for (unsigned e = -image_width/2; e < image_width/2; ++e) {
-            Ray ray{ glm::vec3(0, 0, 0), glm::vec3(e, i, distance) };
-
-            for each(std::shared_ptr<Shape> shape in scene.objects) {
-                
-            }
-        }
-    }
 }

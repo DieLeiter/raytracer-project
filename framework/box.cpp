@@ -41,7 +41,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (y > min_.y && y < max_.y && z > min_.z && z < max_.z) {
+		if (y >= min_.y && y <= max_.y && z > min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
@@ -57,7 +57,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (y > min_.y && y < max_.y && z > min_.z && z < max_.z) {
+		if (y >= min_.y && y <= max_.y && z >= min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
@@ -65,14 +65,14 @@ HitPoint Box::intersect(Ray const& ray) const
 	}
 
 	// left
-	// check that ray is not parallel to x plane
+	// check that ray is not parallel to z plane
 	if (direction.z != 0) {
 		float t = (-ray.origin.z + min_.z) / direction.z;
 		float x = ray.origin.x + t * direction.x;
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (y > min_.y && y < max_.y && x > min_.x && x < max_.x) {
+		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
@@ -80,14 +80,14 @@ HitPoint Box::intersect(Ray const& ray) const
 	}
 
 	// right
-	// check that ray is not parallel to x plane
+	// check that ray is not parallel to z plane
 	if (direction.z != 0) {
 		float t = (-ray.origin.z + max_.z) / direction.z;
 		float x = ray.origin.x + t * direction.x;
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (y > min_.y && y < max_.y && x > min_.x && x < max_.x) {
+		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
@@ -95,14 +95,14 @@ HitPoint Box::intersect(Ray const& ray) const
 	}
 
 	// bottom
-	// check that ray is not parallel to x plane
+	// check that ray is not parallel to y plane
 	if (direction.y != 0) {
 		float t = (-ray.origin.y + min_.y) / direction.y;
 		float x = ray.origin.x + t * direction.x;
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (x > min_.x && x < max_.x && z > min_.z && z < max_.z) {
+		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
@@ -110,14 +110,14 @@ HitPoint Box::intersect(Ray const& ray) const
 	}
 
 	// top
-	// check that ray is not parallel to x plane
+	// check that ray is not parallel to y plane
 	if (direction.y != 0) {
 		float t = (-ray.origin.y + max_.y) / direction.y;
 		float x = ray.origin.x + t * direction.x;
 		float y = ray.origin.y + t * direction.y;
 		float z = ray.origin.z + t * direction.z;
 
-		if (x > min_.x && x < max_.x && z > min_.z && z < max_.z) {
+		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
 			hits.push_back(hit);
