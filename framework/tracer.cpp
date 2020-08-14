@@ -18,7 +18,7 @@ void Tracer::trace(Scenegraph& scene, Renderer& renderer, unsigned image_width, 
 
             std::vector<HitPoint> hits{};
 
-            for each (std::shared_ptr<Shape> shape in scene.objects) {
+            for (std::shared_ptr<Shape> shape : scene.objects) {
 
                 HitPoint hit = shape->intersect(ray);
 
