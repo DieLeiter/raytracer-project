@@ -13,7 +13,7 @@ void Tracer::trace(Scenegraph& scene, Renderer& renderer, unsigned image_width, 
         for (int x = 0; x < (int)image_width; ++x) {
 
             float ray_x = (int)image_width / 2 - ((int)image_width - x);
-            float ray_y = -(int)image_height / 2 + ((int)image_height - y);
+            float ray_y = (int)image_height / 2 - ((int)image_height - y);
             Ray ray{ glm::vec3(0, 0, 0), glm::vec3(ray_x, ray_y, distance) };
 
             std::vector<HitPoint> hits{};
