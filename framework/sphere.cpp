@@ -35,12 +35,8 @@ float Sphere::volume() const
 
 HitPoint Sphere::intersect(Ray const& ray) const
 {
-	glm::vec3 direction = glm::normalize(ray.direction);
 	float distance = 0;
-	bool hit = glm::intersectRaySphere(ray.origin, direction, center_, pow(radius_, 2), distance);
-	glm::vec3 hitpoint{ ray.origin.x + (distance * direction.x),
-							ray.origin.y + (distance * direction.y), 
-							ray.origin.z + (distance * direction.z) };
-
-	return HitPoint(hit, distance, name_, material_, hitpoint, direction);
+	bool hit = glm::intersectRaySphere(ray.origin, ray.direction, center_, pow(radius_, 2), distance);
+	glm::vec3 hitpoint = ray.origin + distance * ray.direction;
+	return HitPoint(hit, distance, name_, material_, hitpoint, ray.direction);
 }

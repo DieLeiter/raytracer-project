@@ -30,96 +30,97 @@ float Box::volume() const
 
 HitPoint Box::intersect(Ray const& ray) const
 {
-	glm::vec3 direction = glm::normalize(ray.direction);
 	std::vector<HitPoint> hits{};
 
 	// left
 	// check that ray is not parallel to x plane
-	if (direction.x != 0) {
-		float t = (-ray.origin.x + min_.x) / direction.x;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.x != 0) {
 
-		if (y >= min_.y && y <= max_.y && z > min_.z && z <= max_.z) {
+		float t = (-ray.origin.x + min_.x) / ray.direction.x; 
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
+		
+		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
+			
 		}
 	}
 
 
 	// right
 	// check that ray is not parallel to x plane
-	if (direction.x != 0) {
-		float t = (-ray.origin.x + max_.x) / direction.x;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.x != 0) {
+		float t = (-ray.origin.x + max_.x) / ray.direction.x;
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
 
-		if (y >= min_.y && y <= max_.y && z >= min_.z && z <= max_.z) {
+		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
 		}
 	}
 
 	// front
 	// check that ray is not parallel to z plane
-	if (direction.z != 0) {
-		float t = (-ray.origin.z + min_.z) / direction.z;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.z != 0) {
+		float t = (-ray.origin.z + min_.z) / ray.direction.z;
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
 
 		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
 		}
 	}
 
 	// back
 	// check that ray is not parallel to z plane
-	if (direction.z != 0) {
-		float t = (-ray.origin.z + max_.z) / direction.z;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.z != 0) {
+		float t = (-ray.origin.z + max_.z) / ray.direction.z;
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
 
 		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
 		}
 	}
 
 	// bottom
 	// check that ray is not parallel to y plane
-	if (direction.y != 0) {
-		float t = (-ray.origin.y + min_.y) / direction.y;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.y != 0) {
+		float t = (-ray.origin.y + min_.y) / ray.direction.y;
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
 
-		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
+		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
 		}
 	}
 
 	// top
 	// check that ray is not parallel to y plane
-	if (direction.y != 0) {
-		float t = (-ray.origin.y + max_.y) / direction.y;
-		float x = ray.origin.x + t * direction.x;
-		float y = ray.origin.y + t * direction.y;
-		float z = ray.origin.z + t * direction.z;
+	if (ray.direction.y != 0) {
+		float t = (-ray.origin.y + max_.y) / ray.direction.y;
+		float x = ray.origin.x + t * ray.direction.x;
+		float y = ray.origin.y + t * ray.direction.y;
+		float z = ray.origin.z + t * ray.direction.z;
 
 		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), direction };
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
 			hits.push_back(hit);
 		}
 	}
