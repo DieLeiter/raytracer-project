@@ -38,18 +38,19 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                     float max_x;
                     float max_y;
                     float max_z;
-                    //TODO: lookup Material ??
-
+                    std::string box_material_name;
 
                     in_sstream >> box_name;
                     in_sstream >> min_x >> min_y >> min_z;
                     in_sstream >> max_x >> max_y >> max_z;
-                    //TODO: material
+                    in_sstream >> box_material_name;
+
                     Material box_material{};
+                    auto box_material_pair = scene.materials.find(box_material_name);
+                    box_material = *box_material_pair->second; 
 
                     std::cout << "Shape Box in line " << line_count << ": " << box_name << " " << min_x << " " << min_y << " " << min_z << " " << max_x << " " << max_y << " " << max_z << " " << std::endl; // for testing only
                     auto box = std::make_shared<Box>(box_name, box_material, glm::vec3(min_x, min_y, min_z), glm::vec3(max_x, max_y, max_z));
-
                     scene.objects.push_back(box);
                 }
                 else if (shape_type == "sphere") {
@@ -58,13 +59,16 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                     float center_y;
                     float center_z;
                     float radius;
-                    //TODO: material lookup
+                    std::string sphere_material_name;
 
                     in_sstream >> sphere_name;
                     in_sstream >> center_x >> center_y >> center_z;
                     in_sstream >> radius;
-                    //TODO: material
+                    in_sstream >> sphere_material_name;
+
                     Material sphere_material{};
+                    auto sphere_material_pair = scene.materials.find(sphere_material_name);
+                    sphere_material = *sphere_material_pair->second; 
 
                     std::cout << "Shape Sphere in line " << line_count << ": " << sphere_name << " " << center_x << " " << center_y << " " << center_z << " " << radius << std::endl; // for testing only
                     auto sphere = std::make_shared<Sphere>(sphere_name, sphere_material, glm::vec3(center_x, center_y, center_z), radius);
@@ -92,6 +96,9 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 in_sstream >> ka_red >> ka_green >> ka_blue;
                 in_sstream >> m;
 
+                Material joined = {{ka_red, ka_green, ka_blue}, {kd_red, kd_green, kd_blue}, {ks_red, ks_green, ks_blue}, m};
+                auto material = std::make_shared<Material>(joined);
+                scene.materials.insert(std::pair<std::string, std::shared_ptr<Material>>(material_name, material));
                 std::cout << "Material in line " << line_count << ": " << material_name << " " << ka_red << " " << ka_green << " " << ka_blue << " " << m << std::endl; // for testing only
             }
             else if (class_name == "light") {
