@@ -146,5 +146,14 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 std::cout << "Invalid line in SDF File. Unknown class name.";
             }
         }
+        else if (identifier == "ambient") {
+            float ambient_r, ambient_g, ambient_b;
+
+            in_sstream >> ambient_r >> ambient_g >> ambient_b;
+
+            std::cout << "Light in line " << line_count << ": " << ambient_r << " " << ambient_g << " " << ambient_b << std::endl;
+            std::shared_ptr<glm::vec3> ambient = std::make_shared<glm::vec3>(ambient_r, ambient_g, ambient_b);
+            scene.ambient = ambient;
+        }
     }
 }
