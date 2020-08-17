@@ -46,6 +46,18 @@ TEST_CASE("Sphere Intersect Normale") {
     REQUIRE(normale.direction.z == 50);
 }
 
+TEST_CASE("Box Intersect Normale") {
+    Box box{ {-100, -100, -100}, {100, 100, -200} };
+    Ray ray{ {0, 0, 0}, {0, 0, -1} };
+
+    HitPoint hitpoint = box.intersect(ray);
+    Ray normale = box.intersectNormale(hitpoint.hit_point);
+
+    REQUIRE(normale.direction.x == 0);
+    REQUIRE(normale.direction.y == 0);
+    REQUIRE(normale.direction.z == 1);
+}
+
 int main(int argc, char *argv[])
 {
     return Catch::Session().run(argc, argv);

@@ -133,3 +133,25 @@ HitPoint Box::intersect(Ray const& ray) const
 		return *hits.begin();
 	}
 }
+
+Ray Box::intersectNormale(glm::vec3 const& hit_point) const
+{
+	if (hit_point.x == min_.x) {
+		return Ray{ hit_point, {-1, 0, 0} };
+	}
+	if (hit_point.x == max_.x) {
+		return Ray{ hit_point, {1, 0, 0} };
+	}
+	if (hit_point.y == min_.y) {
+		return Ray{ hit_point, {0, -1, 0} };
+	}
+	if (hit_point.y == max_.y) {
+		return Ray{ hit_point, {0, 1, 0} };
+	}
+	if (hit_point.z == min_.z) {
+		return Ray{ hit_point, {0, 0, 1} };
+	}
+	if (hit_point.z == max_.z) {
+		return Ray{ hit_point, {0, 0, -1} };
+	}
+}
