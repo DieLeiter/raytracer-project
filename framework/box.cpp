@@ -43,7 +43,8 @@ HitPoint Box::intersect(Ray const& ray) const
 		
 		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 			
 		}
@@ -60,7 +61,8 @@ HitPoint Box::intersect(Ray const& ray) const
 
 		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 		}
 	}
@@ -75,7 +77,8 @@ HitPoint Box::intersect(Ray const& ray) const
 
 		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 		}
 	}
@@ -90,7 +93,8 @@ HitPoint Box::intersect(Ray const& ray) const
 
 		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 		}
 	}
@@ -105,7 +109,8 @@ HitPoint Box::intersect(Ray const& ray) const
 
 		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 		}
 	}
@@ -120,7 +125,8 @@ HitPoint Box::intersect(Ray const& ray) const
 
 		if (x >= min_.x && x <= max_.x && z >= min_.z && z <= max_.z) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
-			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction };
+			Ray normale = intersectNormale(glm::vec3(x, y, z));
+			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
 			hits.push_back(hit);
 		}
 	}
