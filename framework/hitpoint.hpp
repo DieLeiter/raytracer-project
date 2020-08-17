@@ -4,6 +4,7 @@
 #include <glm/vec3.hpp>
 #include <string>
 #include "color.hpp"
+#include "ray.hpp"
 
 struct HitPoint
 {

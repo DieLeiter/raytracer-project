@@ -1,8 +1,8 @@
 #materials
-define material red 130 0 100 10 
-define material blue 110 0 100 10
+define material red 1 0 0 1 0 0 1 0 0 1 
+define material blue 0 0 1 0 0 1 0 0 1 10
 # geometry
-define shape box rbottom 100 50 -500 300 100 -700 red
+define shape box rbottom -100 50 -500 100 100 -700 red
 define shape sphere bsphere 0 0 -700 60 blue
 # composite
 define shape composite root rbottom bsphere
@@ -14,7 +14,7 @@ transform bsphere translate 0 0 -10
 # lights
 define light sun 500 800 0 1.0 1.0 1.0 10
 define light spot1 -500 800 0 0.8 0.8 0.8 10
-ambient 0.1 0.1 0.1
+ambient 0.5 0.5 0.5
 # camera
 define camera eye 60.0
 # camera xform
