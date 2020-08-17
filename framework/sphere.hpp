@@ -16,6 +16,7 @@ public:
 	float area() const override;
 	float volume() const override;
 	HitPoint intersect(Ray const& ray) const override;
+	Ray intersectNormale(glm::vec3 const& hit_point) const override;
 
 private:
 	glm::vec3 center_;

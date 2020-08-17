@@ -16,6 +16,7 @@ public:
 	virtual float area() const = 0;
 	virtual float volume() const = 0;
 	virtual HitPoint intersect(Ray const& ray) const = 0;
+	virtual Ray intersectNormale(glm::vec3 const& hit_point) const = 0;
 protected:
 	std::string name_ = "Shape";
 	Color color_{ 128, 128, 128 };

@@ -24,7 +24,7 @@ TEST_CASE("Box Intersection"){
 }
 
 TEST_CASE("Sphere Intersection") {
-    Sphere sphere{ glm::vec3(-100, -100, -100), 20 };
+    Sphere sphere{ glm::vec3(0, 0, -100), 20 };
     Ray ray{ {0, 0, 0}, {0, 0, -1} };
 
     HitPoint hitpoint = sphere.intersect(ray);
@@ -32,6 +32,18 @@ TEST_CASE("Sphere Intersection") {
     REQUIRE(hitpoint.hit_point.x == 0);
     REQUIRE(hitpoint.hit_point.y == 0);
     REQUIRE(hitpoint.hit_point.z == -80);
+}
+
+TEST_CASE("Sphere Intersect Normale") {
+    Sphere sphere{ glm::vec3(0, 0, -100), 50 };
+    Ray ray{ {0, 0, 0}, {0, 0, -1} };
+
+    HitPoint hitpoint = sphere.intersect(ray);
+    Ray normale = sphere.intersectNormale(hitpoint.hit_point);
+
+    REQUIRE(normale.direction.x == 0);
+    REQUIRE(normale.direction.y == 0);
+    REQUIRE(normale.direction.z == 50);
 }
 
 int main(int argc, char *argv[])
