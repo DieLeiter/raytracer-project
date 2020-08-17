@@ -94,6 +94,8 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
 
                 in_sstream >> material_name;
                 in_sstream >> ka_red >> ka_green >> ka_blue;
+                in_sstream >> kd_red >> kd_green >> kd_blue;
+                in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
 
                 Material joined = {{ka_red, ka_green, ka_blue}, {kd_red, kd_green, kd_blue}, {ks_red, ks_green, ks_blue}, m};
