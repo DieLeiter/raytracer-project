@@ -17,15 +17,14 @@ void Tracer::trace(Scenegraph& scene, Renderer& renderer, unsigned image_width, 
             //TODO: Ray Erzeugung in eigene Kamera Klasse auslagern
             float ray_x = (int)image_width / 2 - ((int)image_width - x);
             float ray_y = (int)image_height / 2 - ((int)image_height - y);
-            Ray ray{ glm::vec3(0, 0, 0), glm::vec3(ray_x, ray_y, -1*(distance)) };
-            Ray ray_normalized{ glm::vec3(0, 0, 0), glm::normalize(ray.direction) };
+            Ray ray_viewer{ glm::vec3(0, 0, 0), glm::normalize(glm::vec3(ray_x, ray_y, -distance)) };
             
 
             std::vector<HitPoint> hits{};
 
             for (std::shared_ptr<Shape> shape : scene.objects) {
 
-                HitPoint hit = shape->intersect(ray_normalized);
+                HitPoint hit = shape->intersect(ray_viewer);
 
                 if (hit.hit) {
                     hits.push_back(hit);
