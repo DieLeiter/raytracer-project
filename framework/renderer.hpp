@@ -16,12 +16,19 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "scenegraph.hpp"
+#include "ray.hpp"
+
 class Renderer
 {
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
   void render();
+  void render(Scenegraph& scene);
+  Color trace(Scenegraph& scene, Ray& ray);
+  Color shade(Scenegraph& scene, HitPoint& hit);
+  Ray compute_eye_ray(Camera const& camera, int x, int y);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const

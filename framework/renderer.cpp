@@ -7,7 +7,11 @@
 // Renderer
 // -----------------------------------------------------------------------------
 
+#define _USE_MATH_DEFINES
+
 #include "renderer.hpp"
+#include <cmath>
+#include <algorithm>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
@@ -34,6 +38,96 @@ void Renderer::render()
     }
   }
   ppm_.save(filename_);
+}
+
+void Renderer::render(Scenegraph& scene)
+{
+    for (int y = 0; y < (int)height_; ++y) {
+        for (int x = 0; x < (int)width_; ++x) {
+            Ray ray = compute_eye_ray(*scene.camera, x, y);
+            Color pixel_color = trace(scene, ray);
+
+            Pixel pixel{ (unsigned)x, (unsigned)y };
+            pixel.color = pixel_color;
+
+            write(pixel);
+        }
+    }
+    ppm_.save(filename_);
+}
+
+Color Renderer::trace(Scenegraph& scene, Ray& ray)
+{
+    std::vector<HitPoint> hits{};
+
+    // try intersection for every scene object
+    for (std::shared_ptr<Shape> shape : scene.objects) {
+        HitPoint hit = shape->intersect(ray);
+
+        if (hit.hit) {
+            hits.push_back(hit);
+        }
+    }
+
+    if (hits.empty()) {
+        return Color{ 0.0f, 0.0f, 0.2f };
+    }
+    
+    std::sort(hits.begin(), hits.end());
+
+    return shade(scene, *hits.begin());
+}
+
+Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
+{
+    // combute ambient light part
+    float red = scene.ambient->r * hit.material.ka.r;
+    float green = scene.ambient->g * hit.material.ka.g;
+    float blue = scene.ambient->b * hit.material.ka.b;
+
+    std::vector<std::shared_ptr<Light>> visible_lights{}; // lights that are visible from the hitpoint
+
+    // check for visible lights
+    for (std::shared_ptr<Light> light : scene.lights) {
+        glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
+        glm::vec3 origin = hit.hit_point + (2.0f * glm::normalize(hit.normale.direction)); // ray origin with little offset, to avoid shadow acne
+        Ray ray_light{ origin, direction_light };
+
+        for (std::shared_ptr<Shape> shape : scene.objects) {
+
+            HitPoint shape_hit = shape->intersect(ray_light);
+
+            if (!shape_hit.hit) {
+                visible_lights.push_back(light);
+            }
+        }
+    }
+
+    // compute color values with visible lights
+    for (std::shared_ptr<Light> light : visible_lights) {
+        glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
+        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale.direction))) };
+
+        Color kd = hit.material.kd;
+        Color ks = hit.material.ks;
+        red += light->intensity * (kd.r * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.r * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
+        green += light->intensity * (kd.g * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.g * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
+        blue += light->intensity * (kd.b * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.b * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
+    }
+
+    return Color{ red, green, blue };
+}
+
+Ray Renderer::compute_eye_ray(Camera const& camera, int x, int y)
+{
+    //radians = degrees * pi / 180 ;
+    float camera_angle_rad = camera.fov_x * M_PI / 180.0f;
+    float distance = (width_ / 2) / std::tan(camera_angle_rad / 2); // compute plane distance
+
+    float ray_x = (int)width_ / 2 - ((int)width_ - x);
+    float ray_y = (int)height_ / 2 - ((int)height_ - y);
+   
+    return Ray{ glm::vec3(0, 0, 0), glm::normalize(glm::vec3(ray_x, ray_y, -distance)) }; // compute ray from camera through picture plane
 }
 
 void Renderer::write(Pixel const& p)
