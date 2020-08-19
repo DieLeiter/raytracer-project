@@ -34,7 +34,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// left
 	// check that ray is not parallel to x plane
-	if (ray.direction.x != 0) {
+	if (ray.direction.x != 0.0f) {
 
 		// compute intersection with plane
 		float t = (-ray.origin.x + min_.x) / ray.direction.x; 
@@ -43,7 +43,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 		
 		// check if intersection is on box
-		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
+		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
@@ -55,7 +55,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// right
 	// check that ray is not parallel to x plane
-	if (ray.direction.x != 0) {
+	if (ray.direction.x != 0.0f) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.x + max_.x) / ray.direction.x;
@@ -64,7 +64,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 
 		// check if intersection is on box
-		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z) {
+		if (y >= min_.y && y <= max_.y && z <= min_.z && z >= max_.z && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
@@ -74,7 +74,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// front
 	// check that ray is not parallel to z plane
-	if (ray.direction.z != 0) {
+	if (ray.direction.z != 0.0f) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.z + min_.z) / ray.direction.z;
@@ -83,7 +83,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 
 		// check if intersection is on box
-		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
+		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
@@ -93,7 +93,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// back
 	// check that ray is not parallel to z plane
-	if (ray.direction.z != 0) {
+	if (ray.direction.z != 0.0f) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.z + max_.z) / ray.direction.z;
@@ -102,7 +102,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 
 		// check if intersection is on box
-		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x) {
+		if (y >= min_.y && y <= max_.y && x >= min_.x && x <= max_.x && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
@@ -112,7 +112,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// bottom
 	// check that ray is not parallel to y plane
-	if (ray.direction.y != 0) {
+	if (ray.direction.y != 0.0f) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.y + min_.y) / ray.direction.y;
@@ -121,7 +121,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 
 		// check if intersection is on box
-		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
+		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };
@@ -131,7 +131,7 @@ HitPoint Box::intersect(Ray const& ray) const
 
 	// top
 	// check that ray is not parallel to y plane
-	if (ray.direction.y != 0) {
+	if (ray.direction.y != 0.0f) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.y + max_.y) / ray.direction.y;
@@ -140,7 +140,7 @@ HitPoint Box::intersect(Ray const& ray) const
 		float z = ray.origin.z + t * ray.direction.z;
 
 		// check if intersection is on box
-		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z) {
+		if (x >= min_.x && x <= max_.x && z <= min_.z && z >= max_.z && t > 0) {
 			float distance = sqrt(pow(ray.origin.x - x, 2) + pow(ray.origin.y - y, 2) + pow(ray.origin.z - z, 2));
 			Ray normale = intersectNormale(glm::vec3(x, y, z));
 			HitPoint hit{ true, distance, name_, material_, glm::vec3(x, y, z), ray.direction, normale };

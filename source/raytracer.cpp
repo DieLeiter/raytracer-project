@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     unsigned const image_width = 400;
     unsigned const image_height = 300;
     std::string const filename = "./checkerboard.ppm";
-    Renderer renderer{image_width, image_height, filename};
+    //Renderer renderer{image_width, image_height, filename};
 
     SdfParser sdf_parser{};
     Scenegraph scene{};
@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
     // pasring SDF File
     sdf_parser.parse(argv, scene);
 
+    Renderer renderer{ scene.width, scene.height, scene.filename };
+
     std::cout << "Camera name: " << scene.camera->name << std::endl;
     std::cout << "Object count: " << scene.objects.size() << std::endl;
 
@@ -41,7 +43,7 @@ int main(int argc, char* argv[])
     tracer.trace(scene, renderer, image_width, image_height);*/
     renderer.render(scene);
 
-    Window window{{image_width, image_height}};
+    Window window{{scene.width, scene.height}};
 
     while (!window.should_close()) {
         if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {

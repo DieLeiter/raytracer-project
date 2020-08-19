@@ -14,6 +14,8 @@ struct Scenegraph
 	std::vector<std::shared_ptr<Shape>> objects{};
 	std::vector<std::shared_ptr<Light>> lights{};
 	std::map<std::string, std::shared_ptr<Material>> materials{};
+	unsigned width, height;
+	std::string filename;
 };
 
 #endif
