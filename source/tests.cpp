@@ -21,6 +21,55 @@ TEST_CASE("Box Intersection"){
     REQUIRE(hitpoint.hit_point.x == 0);
     REQUIRE(hitpoint.hit_point.y == 0);
     REQUIRE(hitpoint.hit_point.z == -1);
+
+    /*Test 2: ray in wrong z direction */
+    Box box2{ glm::vec3(-1, -1, -1), glm::vec3(1, 1, -2) };
+    Ray ray2{ {0, 0, 0}, {0, 0, 1} };
+
+    HitPoint hitpoint2 = box2.intersect(ray2);
+    std::cout << hitpoint.name << std::endl;
+    REQUIRE(hitpoint2.hit == false);
+
+    /*Test 3: z positive */
+    Box box3{ glm::vec3(-1, -1, 1), glm::vec3(1, 1, 2) };
+    Ray ray3{ {0, 0, 0}, {0, 0, 1} };
+
+    HitPoint hitpoint3 = box3.intersect(ray3);
+    std::cout << hitpoint.name << std::endl;
+    REQUIRE(hitpoint3.hit == true);
+    REQUIRE(hitpoint3.hit_point.x == 0);
+    REQUIRE(hitpoint3.hit_point.y == 0);
+    REQUIRE(hitpoint3.hit_point.z == 1);
+
+    /*Test 4: bootom hit*/
+    Box box4{ glm::vec3(-1, -1, 1), glm::vec3(1, -2, -1) };
+    Ray ray4{ {0, 0, 0}, {0, -1, 0} };
+
+    HitPoint hitpoint4 = box4.intersect(ray4);
+    std::cout << hitpoint4.name << std::endl;
+    REQUIRE(hitpoint4.hit == true);
+    REQUIRE(hitpoint4.hit_point.x == 0);
+    REQUIRE(hitpoint4.hit_point.y == -1);
+    REQUIRE(hitpoint4.hit_point.z == 0);
+
+    /*Test 5: bootom does not hit*/
+    Box box5{ glm::vec3(-1, -1, 1), glm::vec3(1, -2, -1) };
+    Ray ray5{ {0, 0, 0}, {0, 1, 0} };
+
+    HitPoint hitpoint5 = box5.intersect(ray5);
+    std::cout << hitpoint5.name << std::endl;
+    REQUIRE(hitpoint5.hit == false);
+
+    /*Test 6: front hit*/
+    Box box6{ glm::vec3(-1, -1, 1), glm::vec3(1, 1, 2) };
+    Ray ray6{ {0, 0, -5}, {0, 0, 10} };
+
+    HitPoint hitpoint6 = box6.intersect(ray6);
+    std::cout << hitpoint6.name << std::endl;
+    REQUIRE(hitpoint6.hit == true);
+    REQUIRE(hitpoint6.hit_point.x == 0);
+    REQUIRE(hitpoint6.hit_point.y == 0);
+    REQUIRE(hitpoint6.hit_point.z == 1);
 }
 
 TEST_CASE("Sphere Intersection") {
