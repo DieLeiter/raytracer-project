@@ -14,9 +14,9 @@ struct HitPoint
 	Material material{};
 	glm::vec3 hit_point = { 0, 0, 0 };
 	glm::vec3 direction = { 0, 0, 0 };
-	Ray normale{};
+	glm::vec3 normale{};
 	HitPoint() = default;
-	HitPoint(bool h, float d, std::string n, Material m, glm::vec3 hp, glm::vec3 dir, Ray norm) : 
+	HitPoint(bool h, float d, std::string n, Material m, glm::vec3 hp, glm::vec3 dir, glm::vec3 norm) : 
 		hit{h},
 		distance{d},
 		name{n},

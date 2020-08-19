@@ -38,12 +38,11 @@ HitPoint Sphere::intersect(Ray const& ray) const
 	float distance = 0;
 	bool hit = glm::intersectRaySphere(ray.origin, ray.direction, center_, pow(radius_, 2), distance);
 	glm::vec3 hitpoint = ray.origin + distance * ray.direction;
-	Ray normale = intersectNormale(hitpoint);
+	glm::vec3 normale = intersectNormale(hitpoint);
 	return HitPoint(hit, distance, name_, material_, hitpoint, ray.direction, normale);
 }
 
-Ray Sphere::intersectNormale(glm::vec3 const& hit_point) const
+glm::vec3 Sphere::intersectNormale(glm::vec3 const& hit_point) const
 {
-	glm::vec3 direction = { hit_point.x - center_.x, hit_point.y - center_.y, hit_point.z - center_.z };
-	return Ray{ center_, glm::normalize(direction) };
+	return glm::vec3{ hit_point.x - center_.x, hit_point.y - center_.y, hit_point.z - center_.z };
 }

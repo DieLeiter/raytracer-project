@@ -88,11 +88,11 @@ TEST_CASE("Sphere Intersect Normale") {
     Ray ray{ {0, 0, 0}, {0, 0, -1} };
 
     HitPoint hitpoint = sphere.intersect(ray);
-    Ray normale = sphere.intersectNormale(hitpoint.hit_point);
+    glm::vec3 normale = sphere.intersectNormale(hitpoint.hit_point);
 
-    REQUIRE(normale.direction.x == 0);
-    REQUIRE(normale.direction.y == 0);
-    REQUIRE(normale.direction.z == 50);
+    REQUIRE(normale.x == 0);
+    REQUIRE(normale.y == 0);
+    REQUIRE(normale.z == 1.0f);
 }
 
 TEST_CASE("Box Intersect Normale") {
@@ -100,11 +100,11 @@ TEST_CASE("Box Intersect Normale") {
     Ray ray{ {0, 0, 0}, {0, 0, -1} };
 
     HitPoint hitpoint = box.intersect(ray);
-    Ray normale = box.intersectNormale(hitpoint.hit_point);
+    glm::vec3 normale = box.intersectNormale(hitpoint.hit_point);
 
-    REQUIRE(normale.direction.x == 0);
-    REQUIRE(normale.direction.y == 0);
-    REQUIRE(normale.direction.z == 1);
+    REQUIRE(normale.x == 0);
+    REQUIRE(normale.y == 0);
+    REQUIRE(normale.z == 1);
 }
 
 int main(int argc, char *argv[])

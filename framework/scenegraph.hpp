@@ -4,6 +4,7 @@
 #include "camera.hpp"
 #include "shape.hpp"
 #include "light.hpp"
+#include <memory>
 #include <vector>
 #include <map>
 

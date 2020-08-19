@@ -12,6 +12,7 @@
 #include "renderer.hpp"
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
@@ -89,34 +90,35 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
     float green = scene.ambient->g * hit.material.ka.g;
     float blue = scene.ambient->b * hit.material.ka.b;
 
-    std::vector<std::shared_ptr<Light>> visible_lights{}; // lights that are visible from the hitpoint
+    std::map<std::string, std::shared_ptr<Light>>visible_lights{}; // lights that are visible from the hitpoint
 
     // check for visible lights
-    for (std::shared_ptr<Light> light : scene.lights) {
+    for (std::shared_ptr<Light> const& light : scene.lights) {
         glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
-        glm::vec3 origin = hit.hit_point + 2.0f * hit.normale.direction; // ray origin with little offset, to avoid shadow acne
+        glm::vec3 origin = hit.hit_point + 2.0f * hit.normale; // ray origin with little offset, to avoid shadow acne
         Ray ray_light{ origin, direction_light };
 
-        for (std::shared_ptr<Shape> shape : scene.objects) {
+
+        for (std::shared_ptr<Shape> const& shape : scene.objects) {
 
             HitPoint shape_hit = shape->intersect(ray_light);
 
             if (!shape_hit.hit) {
-                visible_lights.push_back(light);
+                visible_lights.insert(std::pair<std::string, std::shared_ptr<Light>>(light->name, light));
             }
         }
     }
 
     // compute color values with visible lights
-    for (std::shared_ptr<Light> light : visible_lights) {
-        glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
-        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale.direction))) };
+    for (auto const& light : visible_lights) {
+        glm::vec3 direction_light{ glm::normalize(light.second->position - hit.hit_point) }; // get direction to light
+        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale))) };
 
         Color kd = hit.material.kd;
         Color ks = hit.material.ks;
-        red += light->intensity * (kd.r * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.r * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
-        green += light->intensity * (kd.g * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.g * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
-        blue += light->intensity * (kd.b * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.b * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
+        red += light.second->intensity * (kd.r * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.r * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        green += light.second->intensity * (kd.g * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.g * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        blue += light.second->intensity * (kd.b * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
     }
 
     return Color{ red, green, blue };
