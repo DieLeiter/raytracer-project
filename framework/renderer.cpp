@@ -47,6 +47,10 @@ void Renderer::render(Scenegraph& scene)
             Ray ray = compute_eye_ray(*scene.camera, x, y);
             Color pixel_color = trace(scene, ray);
 
+            /*pixel_color.r = pixel_color.r / (pixel_color.r + 1);
+            pixel_color.r = pixel_color.g / (pixel_color.g + 1);
+            pixel_color.r = pixel_color.b / (pixel_color.b + 1);*/
+
             Pixel pixel{ (unsigned)x, (unsigned)y };
             pixel.color = pixel_color;
 
@@ -90,7 +94,7 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
     // check for visible lights
     for (std::shared_ptr<Light> light : scene.lights) {
         glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
-        glm::vec3 origin = hit.hit_point + (2.0f * glm::normalize(hit.normale.direction)); // ray origin with little offset, to avoid shadow acne
+        glm::vec3 origin = hit.hit_point + 2.0f * hit.normale.direction; // ray origin with little offset, to avoid shadow acne
         Ray ray_light{ origin, direction_light };
 
         for (std::shared_ptr<Shape> shape : scene.objects) {
@@ -110,9 +114,9 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
 
         Color kd = hit.material.kd;
         Color ks = hit.material.ks;
-        red += light->intensity * (kd.r * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.r * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
-        green += light->intensity * (kd.g * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.g * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
-        blue += light->intensity * (kd.b * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.b * pow(glm::dot(direction_reflection, glm::normalize(hit.direction)), hit.material.m));
+        red += light->intensity * (kd.r * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.r * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
+        green += light->intensity * (kd.g * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.g * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
+        blue += light->intensity * (kd.b * glm::dot(direction_light, glm::normalize(hit.normale.direction)) + ks.b * pow(glm::dot(direction_reflection, hit.direction), hit.material.m));
     }
 
     return Color{ red, green, blue };
