@@ -1,7 +1,7 @@
 #materials
-define material red 0.7 0 0 0.1 0 0 0.1 0 0 600 
+define material red 0.7 0 0 0.1 0 0 0.1 0 0 100 0 0 0 0 0 0 0 0 0
 define material blue 0 0 0.7 0 0 0.1 0 0 0.1 10
-define material white 1 1 1 0.1 0.1 0.1 0.1 0.1 0.1 810
+define material white 1 1 1 0.1 0.1 0.1 0.1 0.1 0.1 20
 # geometry
 define shape box rbottom -100 150 -500 100 250 -700 red
 define shape box floor -200 -105 -200 200 -85 -800 white

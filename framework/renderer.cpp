@@ -43,9 +43,33 @@ void Renderer::render()
 
 void Renderer::render(Scenegraph& scene)
 {
+
+  /* Prepare Camera Transformation*/
+  // n is normalized direction of eye
+  glm::vec3 n = glm::normalize(scene.camera->dir);
+  //u = n x up
+  glm::vec3 u = glm::normalize(glm::cross(n, scene.camera->up));
+  //v = u x n
+  glm::vec3 v = glm::normalize(glm::cross(u, n));
+  //transformation matrix of camera
+  glm::mat4 transform_mat = {glm::vec4{u.x, v.x, -n.x, scene.camera->eye.x},
+                            glm::vec4{u.y, v.y, -n.y, scene.camera->eye.y},
+                            glm::vec4{u.z, v.z, -n.z, scene.camera->eye.z},
+                            glm::vec4{0, 0, 0, 1}};
+
     for (int y = 0; y < (int)height_; ++y) {
         for (int x = 0; x < (int)width_; ++x) {
             Ray ray = compute_eye_ray(*scene.camera, x, y);
+
+            /*transform ray*/
+            Ray ray_transformed;
+            glm::vec4 origin_4 {ray.origin, 1.0f};
+            glm::vec4 direction_4 {ray.direction, 0.0f};
+            glm::vec4 transformed_origin = transform_mat * origin_4;
+            glm::vec4 transformed_direction = glm::normalize(transform_mat * direction_4);
+            ray_transformed = {{transformed_origin.x, transformed_origin.y, transformed_origin.z}, {transformed_direction.x, transformed_direction.y, transformed_direction.z}};
+            ray = ray_transformed;
+
             Color pixel_color = trace(scene, ray);
 
             /*pixel_color.r = pixel_color.r / (pixel_color.r + 1);
