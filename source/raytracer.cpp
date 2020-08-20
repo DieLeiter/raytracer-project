@@ -12,7 +12,6 @@
 #include "scenegraph.hpp"
 #include "ray.hpp"
 #include "shape.hpp"
-#include "tracer.hpp"
 
 //now single threaded again
 int main(int argc, char* argv[])

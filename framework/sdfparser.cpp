@@ -134,11 +134,30 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 //parse camera attributes
                 std::string camera_name;
                 float angle;
+                float position_x;
+                float position_y;
+                float position_z;
+                float dir_x;
+                float dir_y;
+                float dir_z;
+                float up_x;
+                float up_y;
+                float up_z;
+
                 in_sstream >> camera_name;
                 in_sstream >> angle;
+                in_sstream >> position_x;
+                in_sstream >> position_y;
+                in_sstream >> position_z;
+                in_sstream >> dir_x;
+                in_sstream >> dir_y;
+                in_sstream >> dir_z;
+                in_sstream >> up_x;
+                in_sstream >> up_y;
+                in_sstream >> up_z;
 
                 std::cout << "Camera in line " << line_count << ": " << camera_name << " " << angle << std::endl; // for testing only
-                std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_name, angle);
+                std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_name, angle, glm::vec3(position_x, position_y, position_z),glm::vec3(dir_x, dir_y, dir_z),glm::vec3(up_x, up_y, up_z));
 
                 scene.camera = camera;
             }
