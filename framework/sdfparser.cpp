@@ -192,16 +192,17 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
             std::string shape_name;
             std::string transform_type;
 
-            auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) {
-                return shape_name == shape->name();
-            };
-
             in_sstream >> shape_name >> transform_type;
 
             if (transform_type == "rotate") {
                 float angle, x_axis, y_axis, z_axis;
                 in_sstream >> angle >> x_axis >> y_axis >> z_axis;
 
+                std::cout << "Transformation in line " << line_count << ": " << shape_name << " " << transform_type << " " << angle << " " << x_axis << y_axis << z_axis << std::endl;
+
+                auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
+                    return shape->name() == shape_name;
+                };
                 auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
                 
                 if (it == scene.objects.end()) {
@@ -215,6 +216,11 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 float x_axis, y_axis, z_axis;
                 in_sstream >> x_axis >> y_axis >> z_axis;
 
+                std::cout << "Transformation in line " << line_count << ": " << shape_name << " " << transform_type << " " << x_axis << y_axis << z_axis << std::endl;
+
+                auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
+                    return shape->name() == shape_name;
+                };
                 auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
 
                 if (it == scene.objects.end()) {
@@ -228,6 +234,11 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 float x_axis, y_axis, z_axis;
                 in_sstream >> x_axis >> y_axis >> z_axis;
 
+                std::cout << "Transformation in line " << line_count << ": " << shape_name << " " << transform_type << " " << x_axis << y_axis << z_axis << std::endl;
+
+                auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
+                    return shape->name() == shape_name;
+                };
                 auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
 
                 if (it == scene.objects.end()) {
