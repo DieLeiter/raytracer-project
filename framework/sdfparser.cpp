@@ -3,6 +3,7 @@
 #include <fstream> // opern, read, write, close files
 #include <sstream> // stringstream for easier parsing
 #include <string> // to buffer lines of the SDF File
+#include <algorithm>
 
 #include "box.hpp"
 #include "sphere.hpp"
@@ -185,6 +186,57 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
             scene.width = width;
             scene.height = height;
             scene.filename = filename;
+        }
+        else if (identifier == "transform") {
+   
+            std::string shape_name;
+            std::string transform_type;
+
+            auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) {
+                return shape_name == shape->name();
+            };
+
+            in_sstream >> shape_name >> transform_type;
+
+            if (transform_type == "rotate") {
+                float angle, x_axis, y_axis, z_axis;
+                in_sstream >> angle >> x_axis >> y_axis >> z_axis;
+
+                auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
+                
+                if (it == scene.objects.end()) {
+                    std::cout << "No object with this name!" << std::endl;
+                }
+                else {
+                    (*(*it)).rotate(angle, { x_axis, y_axis, z_axis });
+                }
+            }
+            else if (transform_type == "translate") {
+                float x_axis, y_axis, z_axis;
+                in_sstream >> x_axis >> y_axis >> z_axis;
+
+                auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
+
+                if (it == scene.objects.end()) {
+                    std::cout << "No object with this name!" << std::endl;
+                }
+                else {
+                    (*(*it)).translate({x_axis, y_axis, z_axis});
+                }
+            }
+            else if (transform_type == "scale") {
+                float x_axis, y_axis, z_axis;
+                in_sstream >> x_axis >> y_axis >> z_axis;
+
+                auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
+
+                if (it == scene.objects.end()) {
+                    std::cout << "No object with this name!" << std::endl;
+                }
+                else {
+                    (*(*it)).scale({ x_axis, y_axis, z_axis });
+                }
+            }
         }
     }
 }
