@@ -21,14 +21,14 @@ public:
 	virtual ~Shape();
 	virtual float area() const = 0;
 	virtual float volume() const = 0;
-	virtual HitPoint intersect(Ray const& ray) const = 0;
+	virtual HitPoint intersect(Ray const& r) const = 0;
 	virtual glm::vec3 intersectNormale(glm::vec3 const& hit_point) const = 0;
 protected:
 	std::string name_ = "Shape";
 	Color color_{ 128, 128, 128 };
 	Material material_{};
-	glm::mat4 world_transformation_{};
-	glm::mat4 world_transformation_inv_{};
+	glm::mat4x4 world_transformation_{};
+	glm::mat4x4 world_transformation_inv_{};
 };
 
 #endif

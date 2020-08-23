@@ -12,6 +12,7 @@
 #include "renderer.hpp"
 #include <cmath>
 #include <algorithm>
+#include <glm/glm.hpp>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
@@ -156,4 +157,14 @@ void Renderer::write(Pixel const& p)
   }
 
   ppm_.write(p);
+}
+
+Ray transformRay(Ray const& ray, glm::mat4 const& matrix)
+{
+    glm::vec4 origin{ ray.origin, 1.0f };
+    glm::vec4 direction{ ray.direction, 0.0f };
+
+    origin = matrix * origin;
+    direction = matrix * direction;
+    return Ray{ {origin.x, origin.y, origin.z}, glm::normalize(glm::vec3(direction.x, direction.y, direction.z)) };
 }
