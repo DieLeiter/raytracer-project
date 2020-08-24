@@ -1,6 +1,8 @@
 #include "shape.hpp"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <cmath>
+#define GLM_FORCE_RADIANS //to enforce all the angles to be radians
 
 Shape::Shape(std::string const& name, Material const& material) :
 	name_{name},
@@ -13,16 +15,57 @@ std::string Shape::name() const
 
 void Shape::rotate(float angle, glm::vec3 const& axis)
 {
-	/* TODO 
-	world_transformation_ *= glm::rotate(world_transformation_, angle, axis);
-	world_transformation_inv_ = glm::inverse(world_transformation_);*/
+	//angle in radian
+	angle = angle* M_PI / 180;
+	//default
+	glm::mat4 rotation_matrix = glm::mat4{
+		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+
+	if(axis.x!=0 && axis.y==0 && axis.z==0){
+		rotation_matrix = glm::mat4{
+			glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+			glm::vec4(0.0f, std::cos(angle), std::sin(angle), 0.0f),
+			glm::vec4(0.0f, -(std::sin(angle)), std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)};
+	}
+	else if(axis.x == 0 && axis.y!=0 && axis.z==0){
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), 0.0f, -(std::sin(angle)), 0.0f),
+			glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+			glm::vec4(std::sin(angle), 0.0f, std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)};
+
+	}
+	else if(axis.x == 0 && axis.y==0 && axis.z!=0){
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), std::sin(angle), 0.0f, 0.0f),
+			glm::vec4(-(std::sin(angle)), std::cos(angle), 0.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)};
+	}
+	else{
+		//TODO
+		std::cout<<"axis must provide only zero-values apart from axis you want to rotate around."<<std::endl;
+	}
+	//world_transformation_ *= glm::rotate(world_transformation_, angle, axis);
+	world_transformation_ *= rotation_matrix;
+	world_transformation_inv_ = glm::inverse(world_transformation_);
 }
 
 void Shape::scale(glm::vec3 const& axis)
 {
-	/* TODO
-	world_transformation_ = glm::scale(world_transformation_, axis);
-	world_transformation_inv_ = glm::inverse(world_transformation_); */
+	glm::mat4 scale_matrix = glm::mat4{
+		glm::vec4(axis.x, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, axis.y, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, axis.z, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+	
+	//world_transformation_ = glm::scale(world_transformation_, axis);
+	world_transformation_ *= scale_matrix;
+	world_transformation_inv_ = glm::inverse(world_transformation_); 
 }
 
 void Shape::translate(glm::vec3 const& axis)
