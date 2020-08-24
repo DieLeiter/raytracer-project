@@ -21,9 +21,9 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
     while (std::getline(in_file, line_buffer)) {
         ++line_count;
         std::istringstream in_sstream(line_buffer); //default split token is whitespace
-
-        /* TODO: check if line is empty, otherwise wrong parsing*/
-
+        //check if line is empty, otherwise wrong parsing
+        if(line_buffer.length()>0){
+        
         in_sstream >> identifier; //identifier is assigned the first word (until whitespace)
 
         if (identifier == "define") {
@@ -249,5 +249,8 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 }
             }
         }
+
+        }
+
     }
 }
