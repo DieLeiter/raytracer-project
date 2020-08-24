@@ -118,29 +118,16 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
     // compute color values with visible lights
     for (auto const& light : visible_lights) {
         glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
-        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale))) };
+        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, hit.normale)) };
 
         Color kd = hit.material.kd;
         Color ks = hit.material.ks;
-        red += light->intensity * (kd.r * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.r * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
-        green += light->intensity * (kd.g * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.g * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
-        blue += light->intensity * (kd.b * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))) + ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        red += light->intensity * (kd.r * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.r * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        green += light->intensity * (kd.g * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.g * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        blue += light->intensity * (kd.b * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
     }
 
     return Color{ red, green, blue };
-}
-
-Ray Renderer::compute_eye_ray(Camera const& camera, int x, int y)
-{
-    //radians = degrees * pi / 180 ;
-    /*float camera_angle_rad = camera.fov_x * M_PI / 180.0f;
-    float distance = (width_ / 2) / std::tan(camera_angle_rad / 2); // compute plane distance
-
-    float ray_x = (int)width_ / 2 - ((int)width_ - x);
-    float ray_y = (int)height_ / 2 - ((int)height_ - y);
-   
-    return Ray{ glm::vec3(0, 0, 0), glm::normalize(glm::vec3(ray_x, ray_y, -distance)) };*/ // compute ray from camera through picture plane
-    return Ray{};
 }
 
 void Renderer::write(Pixel const& p)

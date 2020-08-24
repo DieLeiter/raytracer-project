@@ -155,9 +155,9 @@ HitPoint Box::intersect(Ray const& r) const
 		std::sort(hits.begin(), hits.end());
 
 		glm::vec4 transformed_hitpoint = world_transformation_ * glm::vec4(hits.begin()->hit_point, 1.0f);
-		glm::vec4 transformed_normale = glm::normalize(glm::transpose(world_transformation_inv_) * glm::vec4{ hits.begin()->normale, 0.0f });
+		glm::vec4 transformed_normale = glm::transpose(world_transformation_inv_) * glm::vec4{ hits.begin()->normale, 0.0f };
 		hits.begin()->hit_point = { transformed_hitpoint.x, transformed_hitpoint.y, transformed_hitpoint.z };
-		hits.begin()->normale = { transformed_normale.x, transformed_normale.y, transformed_normale.z };
+		hits.begin()->normale = glm::normalize( glm::vec3(transformed_normale.x, transformed_normale.y, transformed_normale.z) );
 		return *hits.begin();
 	}
 }

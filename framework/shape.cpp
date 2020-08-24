@@ -1,8 +1,11 @@
+#define _USE_MATH_DEFINES
+#define GLM_FORCE_RADIANS //to enforce all the angles to be radians
+
 #include "shape.hpp"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <cmath>
-#define GLM_FORCE_RADIANS //to enforce all the angles to be radians
+
 
 Shape::Shape(std::string const& name, Material const& material) :
 	name_{name},
@@ -50,8 +53,8 @@ void Shape::rotate(float angle, glm::vec3 const& axis)
 		//TODO
 		std::cout<<"axis must provide only zero-values apart from axis you want to rotate around."<<std::endl;
 	}
-	//world_transformation_ *= glm::rotate(world_transformation_, angle, axis);
-	world_transformation_ *= rotation_matrix;
+	world_transformation_ *= glm::rotate(world_transformation_, angle, axis);
+	//world_transformation_ *= rotation_matrix;
 	world_transformation_inv_ = glm::inverse(world_transformation_);
 }
 
@@ -63,7 +66,7 @@ void Shape::scale(glm::vec3 const& axis)
 		glm::vec4(0.0f, 0.0f, axis.z, 0.0f),
 		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
 	
-	//world_transformation_ = glm::scale(world_transformation_, axis);
+	//world_transformation_ *= glm::scale(world_transformation_, axis);
 	world_transformation_ *= scale_matrix;
 	world_transformation_inv_ = glm::inverse(world_transformation_); 
 }
