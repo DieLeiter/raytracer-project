@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <catch.hpp>
 
 Box::Box(glm::vec3 const& min, glm::vec3 const& max) :
 	min_{ min },
@@ -36,7 +37,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// left
 	// check that ray is not parallel to x plane
-	if (ray.direction.x != 0.0f) {
+	if (ray.direction.x != Approx(0.0f)) {
 
 		// compute intersection with plane
 		float t = (-ray.origin.x + min_.x) / ray.direction.x; 
@@ -56,7 +57,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// right
 	// check that ray is not parallel to x plane
-	if (ray.direction.x != 0.0f) {
+	if (ray.direction.x != Approx(0.0f)) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.x + max_.x) / ray.direction.x;
@@ -74,7 +75,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// front
 	// check that ray is not parallel to z plane
-	if (ray.direction.z != 0.0f) {
+	if (ray.direction.z != Approx(0.0f)) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.z + min_.z) / ray.direction.z;
@@ -92,7 +93,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// back
 	// check that ray is not parallel to z plane
-	if (ray.direction.z != 0.0f) {
+	if (ray.direction.z != Approx(0.0f)) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.z + max_.z) / ray.direction.z;
@@ -110,7 +111,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// bottom
 	// check that ray is not parallel to y plane
-	if (ray.direction.y != 0.0f) {
+	if (ray.direction.y != Approx(0.0f)) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.y + min_.y) / ray.direction.y;
@@ -128,7 +129,7 @@ HitPoint Box::intersect(Ray const& r) const
 
 	// top
 	// check that ray is not parallel to y plane
-	if (ray.direction.y != 0.0f) {
+	if (ray.direction.y != Approx(0.0f)) {
 		
 		// compute intersection with plane
 		float t = (-ray.origin.y + max_.y) / ray.direction.y;
