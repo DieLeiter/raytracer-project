@@ -28,6 +28,7 @@ public:
   void render(Scenegraph& scene);
   Color trace(Scenegraph& scene, Ray& ray);
   Color shade(Scenegraph& scene, HitPoint& hit);
+  Color reflection(Scenegraph& scene, HitPoint& hit, int max_recursion);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const

@@ -86,10 +86,10 @@ Color Renderer::trace(Scenegraph& scene, Ray& ray)
 
 Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
 {
-    // combute ambient light part
-    float red = scene.ambient->r * hit.material.ka.r;
-    float green = scene.ambient->g * hit.material.ka.g;
-    float blue = scene.ambient->b * hit.material.ka.b;
+    // compute ambient light part
+    float red_ambient = scene.ambient->r * hit.material.ka.r;
+    float green_ambient = scene.ambient->g * hit.material.ka.g;
+    float blue_ambient = scene.ambient->b * hit.material.ka.b;
 
     std::vector<std::shared_ptr<Light>>visible_lights{}; // lights that are visible from the hitpoint
 
@@ -114,20 +114,43 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
             visible_lights.push_back(light);
         }
     }
-
     // compute color values with visible lights
+    float red, green, blue;
     for (auto const& light : visible_lights) {
         glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
-        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, hit.normale)) };
+        glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale))) };
 
         Color kd = hit.material.kd;
         Color ks = hit.material.ks;
-        red += light->intensity * (kd.r * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.r * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
-        green += light->intensity * (kd.g * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.g * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
-        blue += light->intensity * (kd.b * std::max(0.0f, glm::dot(direction_light, hit.normale)) + ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
-    }
+        float red_diffus = light->intensity * (kd.r * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))));
+        float green_diffus = light->intensity * (kd.g * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))));
+        float blue_diffus = light->intensity * (kd.b * std::max(0.0f, glm::dot(direction_light, glm::normalize(hit.normale))));
 
+        float red_specular = light->intensity * (ks.r * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        float green_specular = light->intensity * (ks.g * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+        float blue_specular = light->intensity * (ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
+
+        //calculate color according to phong and add reflection
+        Color reflected_color = reflection(scene, hit, 5);
+        red = (red_ambient + red_diffus + red_specular) + ks.r * reflected_color.r;
+        green = (green_ambient + green_diffus + green_specular) + ks.g * reflected_color.g;
+        blue = (blue_ambient + blue_diffus + blue_specular) + ks.b * reflected_color.b;
+    }
     return Color{ red, green, blue };
+}
+
+
+Color Renderer::reflection(Scenegraph& scene, HitPoint& hit, int max_recursion){
+  //reflection
+  //TODO: not recursive yet
+    int recursion_count = 0; 
+    if(recursion_count < max_recursion){ 
+              glm::vec3 reflected_direction = glm::reflect(glm::normalize(hit.direction),glm::normalize(hit.normale));
+              Ray reflected_ray {hit.hit_point + 0.1f*hit.normale, glm::normalize(reflected_direction)};
+              Color reflected_color = trace(scene, reflected_ray);
+              recursion_count++;
+              return reflected_color;
+    }
 }
 
 void Renderer::write(Pixel const& p)
