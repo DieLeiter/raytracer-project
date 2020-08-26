@@ -115,7 +115,10 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
         }
     }
     // compute color values with visible lights
-    float red, green, blue;
+    float red = 0;
+    float green = 0;
+    float blue = 0;
+
     for (auto const& light : visible_lights) {
         glm::vec3 direction_light{ glm::normalize(light->position - hit.hit_point) }; // get direction to light
         glm::vec3 direction_reflection{ glm::normalize(glm::reflect(direction_light, glm::normalize(hit.normale))) };
