@@ -80,6 +80,7 @@ void Shape::translate(glm::vec3 const& axis)
 		glm::vec4(axis.x, axis.y, axis.z, 1.0f) };
 
 	//world_transformation_ = glm::translate(world_transformation_, axis);
+	
 	world_transformation_ = transform_matrix * world_transformation_;
 	std::cout << world_transformation_[0].x << " " << world_transformation_[1].x << " " << world_transformation_[2].x << " " << world_transformation_[3].x << " " << std::endl;
 	std::cout << world_transformation_[0].y << " " << world_transformation_[1].y << " " << world_transformation_[2].y << " " << world_transformation_[3].y << " " << std::endl;
