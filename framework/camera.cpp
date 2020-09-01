@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 
 #include <cmath>
+#include <iostream>
 #include "camera.hpp"
 #include <glm/glm.hpp>
 
@@ -12,6 +13,7 @@ Camera::Camera(std::string const& n, float angle, glm::vec3 const& position, glm
 	up_{ upvektor } 
 {
 	transform_ = compute_transform();
+	transform_inv_ = glm::inverse(transform_);
 }
 
 
@@ -30,6 +32,65 @@ glm::mat4 Camera::compute_transform()
                         glm::vec4{v.x, v.y, v.z, 0 },
                         glm::vec4{-n.x, -n.y, -n.z, 0 },
                         glm::vec4{eye_.x,eye_.y,eye_.z, 1} };
+}
+
+void Camera::rotate(float angle, glm::vec3 const& axis)
+{
+	//angle in radian
+	angle = angle * M_PI / 180;
+	//default
+	glm::mat4 rotation_matrix = glm::mat4{
+		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+
+	if (axis.x != 0 && axis.y == 0 && axis.z == 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+			glm::vec4(0.0f, std::cos(angle), std::sin(angle), 0.0f),
+			glm::vec4(0.0f, -(std::sin(angle)), std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+	}
+	else if (axis.x == 0 && axis.y != 0 && axis.z == 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), 0.0f, -(std::sin(angle)), 0.0f),
+			glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+			glm::vec4(std::sin(angle), 0.0f, std::cos(angle), 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+
+	}
+	else if (axis.x == 0 && axis.y == 0 && axis.z != 0) {
+		rotation_matrix = glm::mat4{
+			glm::vec4(std::cos(angle), std::sin(angle), 0.0f, 0.0f),
+			glm::vec4(-(std::sin(angle)), std::cos(angle), 0.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+			glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) };
+	}
+	else {
+		//TODO
+		std::cout << "axis must provide only zero-values apart from axis you want to rotate around." << std::endl;
+	}
+
+	transform_ = rotation_matrix * transform_;
+	transform_inv_ = glm::inverse(transform_);
+}
+
+void Camera::translate(glm::vec3 const& axis)
+{
+	glm::mat4 transform_matrix = glm::mat4{
+		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+		glm::vec4(axis.x, axis.y, axis.z, 1.0f) };
+
+	transform_ = transform_matrix * transform_;
+	transform_inv_ = glm::inverse(transform_);
+}
+
+std::string Camera::name() const
+{
+	return name_;
 }
 
 Ray Camera::compute_eye_ray(unsigned width, unsigned height, int x, int y) const
