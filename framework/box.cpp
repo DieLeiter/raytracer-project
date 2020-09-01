@@ -54,7 +54,6 @@ HitPoint Box::intersect(Ray const& r) const
 		}
 	}
 
-
 	// right
 	// check that ray is not parallel to x plane
 	if (ray.direction.x != Approx(0.0f)) {

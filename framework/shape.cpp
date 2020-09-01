@@ -53,8 +53,8 @@ void Shape::rotate(float angle, glm::vec3 const& axis)
 		//TODO
 		std::cout<<"axis must provide only zero-values apart from axis you want to rotate around."<<std::endl;
 	}
-	world_transformation_ = glm::rotate(world_transformation_, angle, axis) * world_transformation_;
-	//world_transformation_ *= rotation_matrix;
+
+	world_transformation_ = rotation_matrix * world_transformation_;
 	world_transformation_inv_ = glm::inverse(world_transformation_);
 }
 
