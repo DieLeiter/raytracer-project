@@ -59,7 +59,7 @@ void Renderer::render(Scenegraph& scene, int counter)
             write(pixel);
         }
     }
-    ppm_.save(filename_+std::to_string(counter));
+    ppm_.save(std::to_string(counter) + "_" + filename_);
 }
 
 Color Renderer::trace(Scenegraph& scene, Ray& ray)
