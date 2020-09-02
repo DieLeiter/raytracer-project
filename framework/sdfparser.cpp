@@ -200,16 +200,21 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
 
                 std::cout << "Transformation in line " << line_count << ": " << shape_name << " " << transform_type << " " << angle << " " << x_axis << y_axis << z_axis << std::endl;
 
-                auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
-                    return shape->name() == shape_name;
-                };
-                auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
-                
-                if (it == scene.objects.end()) {
-                    std::cout << "No object with this name!" << std::endl;
+                if (shape_name == scene.camera->name()) {
+                    scene.camera->rotate(angle, { x_axis, y_axis, z_axis });
                 }
                 else {
-                    (*(*it)).rotate(angle, { x_axis, y_axis, z_axis });
+                    auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
+                        return shape->name() == shape_name;
+                    };
+                    auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
+
+                    if (it == scene.objects.end()) {
+                        std::cout << "No object with this name!" << std::endl;
+                    }
+                    else {
+                        (*(*it)).rotate(angle, { x_axis, y_axis, z_axis });
+                    }
                 }
             }
             else if (transform_type == "translate") {
@@ -218,16 +223,21 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
 
                 std::cout << "Transformation in line " << line_count << ": " << shape_name << " " << transform_type << " " << x_axis << y_axis << z_axis << std::endl;
 
-                auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
-                    return shape->name() == shape_name;
-                };
-                auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
-
-                if (it == scene.objects.end()) {
-                    std::cout << "No object with this name!" << std::endl;
+                if (shape_name == scene.camera->name()) {
+                    scene.camera->translate({ x_axis, y_axis, z_axis });
                 }
                 else {
-                    (*(*it)).translate({x_axis, y_axis, z_axis});
+                    auto find_by_name = [shape_name](std::shared_ptr<Shape> const& shape) -> bool {
+                        return shape->name() == shape_name;
+                    };
+                    auto it = std::find_if(scene.objects.begin(), scene.objects.end(), find_by_name);
+
+                    if (it == scene.objects.end()) {
+                        std::cout << "No object with this name!" << std::endl;
+                    }
+                    else {
+                        (*(*it)).translate({ x_axis, y_axis, z_axis });
+                    }
                 }
             }
             else if (transform_type == "scale") {
