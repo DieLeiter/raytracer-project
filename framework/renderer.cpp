@@ -41,7 +41,7 @@ void Renderer::render()
   ppm_.save(filename_);
 }
 
-void Renderer::render(Scenegraph& scene)
+void Renderer::render(Scenegraph& scene, int counter)
 {
     for (int y = 0; y < (int)height_; ++y) {
         for (int x = 0; x < (int)width_; ++x) {
@@ -59,7 +59,7 @@ void Renderer::render(Scenegraph& scene)
             write(pixel);
         }
     }
-    ppm_.save(filename_);
+    ppm_.save(filename_+std::to_string(counter));
 }
 
 Color Renderer::trace(Scenegraph& scene, Ray& ray)

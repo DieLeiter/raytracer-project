@@ -22,10 +22,12 @@
 class Renderer
 {
 public:
+  //Renderer() = default; 
   Renderer(unsigned w, unsigned h, std::string const& file);
+  
 
   void render();
-  void render(Scenegraph& scene);
+  void render(Scenegraph& scene, int counter);
   Color trace(Scenegraph& scene, Ray& ray);
   Color shade(Scenegraph& scene, HitPoint& hit);
   Color reflection(Scenegraph& scene, HitPoint& hit, int max_recursion);
@@ -37,7 +39,7 @@ public:
   }
 
 private:
-  unsigned width_;
+  unsigned width_ ;
   unsigned height_;
   std::vector<Color> color_buffer_;
   std::string filename_;
