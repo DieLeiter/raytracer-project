@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <glm/glm.hpp>
 
+
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
   , height_(h)
@@ -82,7 +83,7 @@ glm::vec3 Renderer::trace(Scenegraph& scene, Ray& ray)
 
 glm::vec3 Renderer::shade(Scenegraph& scene, HitPoint& hit)
 {
-    // compute ambient light part
+    // compute ambient light
     glm::vec3 ambient = *scene.ambient * hit.material.ka;
 
     std::vector<std::shared_ptr<Light>>visible_lights{}; // lights that are visible from the hitpoint

@@ -15,11 +15,11 @@
 
 
 // header, project
-//#include <color.hpp
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 
 class Pixel
 {
+
 public :
 
   Pixel(unsigned int = 0, unsigned int = 0);

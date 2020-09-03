@@ -22,7 +22,6 @@
 class Renderer
 {
 public:
-  //Renderer() = default; 
   Renderer(unsigned w, unsigned h, std::string const& file);
   
 
