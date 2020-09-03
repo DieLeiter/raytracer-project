@@ -134,26 +134,29 @@ Color Renderer::shade(Scenegraph& scene, HitPoint& hit)
         float blue_specular = light->intensity * (ks.b * pow(std::max(0.0f, glm::dot(direction_reflection, hit.direction)), hit.material.m));
 
         //calculate color according to phong and add reflection
-        Color reflected_color = reflection(scene, hit, 5);
+        Color reflected_color = reflection(scene, hit);
         red = (red_ambient + red_diffus + red_specular) + ks.r * reflected_color.r;
         green = (green_ambient + green_diffus + green_specular) + ks.g * reflected_color.g;
         blue = (blue_ambient + blue_diffus + blue_specular) + ks.b * reflected_color.b;
     }
-    return Color{ red, green, blue };
+    Color calculated_color {red,green,blue};
+    //return tone_mapping(calculated_color);
+    return calculated_color;
 }
 
+Color Renderer::tone_mapping(Color calculated_color){
+  float max_value = 0.3;
+  float final_r = calculated_color.r / (max_value + calculated_color.r);
+  float final_g = calculated_color.g / (max_value + calculated_color.g);
+  float final_b = calculated_color.b / (max_value + calculated_color.b);
+  return{final_r,final_g, final_b};
+}
 
-Color Renderer::reflection(Scenegraph& scene, HitPoint& hit, int max_recursion){
-  //reflection
-  //TODO: not recursive yet
-    int recursion_count = 0; 
-    if(recursion_count < max_recursion){ 
+Color Renderer::reflection(Scenegraph& scene, HitPoint& hit){
               glm::vec3 reflected_direction = glm::reflect(glm::normalize(hit.direction),glm::normalize(hit.normale));
               Ray reflected_ray {hit.hit_point + 0.1f*hit.normale, glm::normalize(reflected_direction)};
               Color reflected_color = trace(scene, reflected_ray);
-              recursion_count++;
-              return reflected_color;
-    }
+              return reflected_color;   
 }
 
 void Renderer::write(Pixel const& p)

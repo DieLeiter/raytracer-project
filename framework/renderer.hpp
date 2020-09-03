@@ -30,7 +30,8 @@ public:
   void render(Scenegraph& scene, int counter);
   Color trace(Scenegraph& scene, Ray& ray);
   Color shade(Scenegraph& scene, HitPoint& hit);
-  Color reflection(Scenegraph& scene, HitPoint& hit, int max_recursion);
+  Color tone_mapping(Color calculated_color);
+  Color reflection(Scenegraph& scene, HitPoint& hit);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const

@@ -32,11 +32,13 @@ void SdfWriter::write(float progress_percentage, std::string const& filename) co
         << "transform rbottom rotate " << std::to_string(rotation_endvalue * progress_percentage) << " 0 1 0" << std::endl
         << "transform rbottom translate 0 100 -500" << std::endl
         << "transform bsphere scale " << std::to_string(scale_endvalue * progress_percentage) << " " << std::to_string(scale_endvalue * progress_percentage) << " " << std::to_string(scale_endvalue * progress_percentage) << std::endl
-        << "transform bsphere translate 0 -30 -300" << std::endl;
+        << "transform bsphere translate 0 -30 -100" << std::endl;
 
-    //lights
+    //lights: name, position, color, intensity
     myfile << "#lights" << std::endl 
         << "define light sun 0 0 0 0.7 0.7 0.7 5" << std::endl
+        //<< "define light sun2 0 0 0 0.75 0.75 0.75 10" << std::endl
+        //<< "define light spot1 0 0 0 0.8 0.8 0.8 10" << std::endl
         << "ambient 0.5 0.5 0.5" << std::endl;
 
     //render

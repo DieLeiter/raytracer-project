@@ -17,8 +17,8 @@
 //now single threaded again
 int main(int argc, char* argv[])
 {
+    //get framerate for animation
     int framerate;
-
     std::cout << "Werter Herr, Werte Dame, bitte insertieren Sie eine Frameanzahl: " << std::endl;
     std::cin >> framerate;
 
@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
     SdfWriter sdf_writer{};
     Renderer renderer{0,0,"x"};
     std::string filename(argv[1]);
+    //animation
     for(int i = 1; i <= framerate ; ++i){
         sdf_writer.write((float)i/(float)framerate, filename);
         // pasring SDF File
