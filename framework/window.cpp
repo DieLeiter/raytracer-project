@@ -204,7 +204,7 @@ float Window::get_time() const
   return float(glfwGetTime());
 }
 
-void Window::show(std::vector<Color> const& color_buffer)
+void Window::show(std::vector<glm::vec3> const& color_buffer)
 {
   glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, window_size_.x, window_size_.y, GL_RGB, GL_FLOAT, color_buffer.data());
   glBindVertexArray(vao_);

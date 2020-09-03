@@ -13,8 +13,10 @@
 // header, system
 #include <iosfwd>
 
+
 // header, project
-#include <color.hpp>
+//#include <color.hpp
+#include <glm/glm.hpp>
 
 class Pixel
 {
@@ -25,7 +27,7 @@ public :
 
   unsigned int x = 0;
   unsigned int y = 0;
-  Color color = {1.0, 1.0, 1.0};
+  glm::vec3 color = {1.0, 1.0, 1.0};
 };
 
 std::ostream& operator<<(std::ostream&, const Pixel&);

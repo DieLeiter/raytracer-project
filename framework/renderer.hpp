@@ -28,13 +28,13 @@ public:
 
   void render();
   void render(Scenegraph& scene, int counter);
-  Color trace(Scenegraph& scene, Ray& ray);
-  Color shade(Scenegraph& scene, HitPoint& hit);
-  Color tone_mapping(Color calculated_color);
-  Color reflection(Scenegraph& scene, HitPoint& hit);
+  glm::vec3 trace(Scenegraph& scene, Ray& ray);
+  glm::vec3 shade(Scenegraph& scene, HitPoint& hit);
+  glm::vec3 tone_mapping(glm::vec3 calculated_color);
+  glm::vec3 reflection(Scenegraph& scene, HitPoint& hit);
   void write(Pixel const& p);
 
-  inline std::vector<Color> const& color_buffer() const
+  inline std::vector<glm::vec3> const& color_buffer() const
   {
     return color_buffer_;
   }
@@ -42,7 +42,7 @@ public:
 private:
   unsigned width_ ;
   unsigned height_;
-  std::vector<Color> color_buffer_;
+  std::vector<glm::vec3> color_buffer_;
   std::string filename_;
   PpmWriter ppm_;
 };

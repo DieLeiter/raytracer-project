@@ -10,7 +10,7 @@
 #ifndef BUW_WINDOW_HPP
 #define BUW_WINDOW_HPP
 
-#include "color.hpp"
+//#include "color.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -70,7 +70,7 @@ public:
   // time elapsed since GLFW was initialized
   float get_time() const;
 
-  void show(std::vector<Color> const& color_buffer);
+  void show(std::vector<glm::vec3> const& color_buffer);
 
 private:
   GLFWwindow*       window_;

@@ -124,7 +124,7 @@ void SdfParser::parse(char* argv[], Scenegraph &scene) const
                 in_sstream >> color_b;
                 in_sstream >> intensity;
 
-                Color light_color{ color_r, color_g, color_b };
+                glm::vec3 light_color{ color_r, color_g, color_b };
 
                 std::cout << "Light in line " << line_count << ": " << light_name << " " << position_x << " " << position_y << " " << position_z << " " << color_r << " " << color_g << " " << color_b << " " << intensity << std::endl; // for testing only
                 std::shared_ptr<Light> light = std::make_shared<Light>(light_name, glm::vec3(position_x, position_y, position_z), light_color, intensity);

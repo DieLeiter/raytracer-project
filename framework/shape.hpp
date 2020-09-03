@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include "color.hpp"
+//#include "color.hpp"
 #include "material.hpp"
 #include "hitpoint.hpp"
 #include "ray.hpp"
@@ -25,7 +25,7 @@ public:
 	virtual glm::vec3 intersectNormale(glm::vec3 const& hit_point) const = 0;
 protected:
 	std::string name_ = "Shape";
-	Color color_{ 128, 128, 128 };
+	glm::vec3 color_{ 128, 128, 128 };
 	Material material_{};
 	glm::mat4x4 world_transformation_{};
 	glm::mat4x4 world_transformation_inv_{};
