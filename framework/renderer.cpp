@@ -126,12 +126,12 @@ glm::vec3 Renderer::shade(Scenegraph& scene, HitPoint& hit)
         glm::vec3 reflected_color = reflection(scene, hit);
         calculated_color = (ambient + diffus + specular) + ks * reflected_color;
     }
-    //return tone_mapping(calculated_color);
-    return calculated_color;
+    return tone_mapping(calculated_color);
+    //return calculated_color;
 }
 
 glm::vec3 Renderer::tone_mapping(glm::vec3 calculated_color){
-  glm::vec3 max_value {0.3, 0.3, 0.3};
+  glm::vec3 max_value {0.7, 0.7, 0.7};
   glm::vec3 final_color = calculated_color / (max_value + calculated_color);
   return final_color;
 }
